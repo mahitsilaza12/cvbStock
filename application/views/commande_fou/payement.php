@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="<?= base_url() ?>issets/css/bootstrap.min.css">
+  
+
+  <style>
+  
+#dd{
+  margin-top:60px;
+  margin-right:30px;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="row">
+<div class="col-md-12">
+
+<?php   
+$success =$this->session->userdata("success");
+if($success !=''){?>
+<div class="alert alert-success"><?php echo $success; ?></div>
+<?php
+}
+?>
+
+<?php   
+$failure =$this->session->userdata("failure");
+if($failure !=''){?>
+<div class="alert alert-success"><?php echo $failure; ?></div>
+<?php
+}
+?>
+</div>
+</div>
+
+<div class="container">
+<div>
+
+ 
+  <!-- Trigger the modal with a button -->
+  
+  <!-- Modal -->
+  
+<div class="col-md-6 col-md-10"class="row" style="height:650px;margin-left:-13px;margin-right:200px; box-shadow: 0px 20px 30px; margin-top:60px; left:229px;position:fixed;"> 
+<div style="height:70x; margin-top:10px; ">
+<h1 style="text-align:center;" class="p-3 mb-2 bg-info text-white"><button style="left:30px;" type="button" class="btn btn-light text-info float-left">
+  Archive payement <span class="badge badge-primary"></span></button> Payement 
+  <nav aria-label="breadcrumb">
+  <ol class="breadcrumb  text-info float-right" style="left:30px; margin-top:-50px;font-size:20px;">
+    <li class="breadcrumb-item"><a href="http://localhost/cybb/index.php/home/">Accueil</a></li>
+    <li class="breadcrumb-item active" aria-current="page">historique</li>
+    <li class="breadcrumb-item active" aria-current="page">payement</li>
+  </ol>
+</nav>
+  </h1>
+
+
+</div>
+
+<!-- <div style=";height:10px;margin-top:px;margin-right:180px;margin-left:px; box-shadow: 0px 20px 30px; width:100%;" class="container-fluid col-md-7 col-md-12 shadow-none p-3 mb-5 bg-light rounded"> -->
+<div class="form-row">
+<div class="form-group col-md-4" style="left:5px;margin-top:10px;">
+
+<div class="btn-group" role="group" aria-label="Basic example">
+
+<form method="post" action="<?php echo base_url().'index.php/payement_fou/exceles'; ?>">
+<button type="submit"  name="export" class="btn btn-success"><span><i class="fas fa-download"></i></span> telecharger excel</button>
+</form>
+<button type="button" class="btn btn-secondary"><span><i class="fas fa-sync"></i></span> </button>
+<a href="<?php echo base_url().'index.php/historique/historique'?>"><button type="button" class="btn btn-info"><span><i class="fas fa-chevron-circle-left"></i></span>Retour</button></a>
+</div>
+
+
+
+</div>
+</div>
+
+ <div class="alert alert-primary" role="alert">
+ <h1 style="text-aligne:center;">payement de la fournisseur</h1>
+</div>
+
+
+ <div style="overflow:scroll;margin-top:10px;height:470px;margin-right: 0px;">
+  
+<table class="table table-dark"style=";height:40px;margin-top:px;margin-right:80px;margin-left:px;  width:100%;" class="container-fluid col-md-7 col-md-12 shadow-none p-3 mb-5 bg-light rounded">
+                                    <thead class="thead bg-info text-white">
+                                      <tr>
+                                      
+                                        <th scope="col">nom_fournisseur</th>
+                                        <th scope="col">numero_facture</th>
+                                        <th scope="col">date_appro</th>
+                                
+                                        <th scope="col">somme_a_payeee</th>
+                                        <th scope="col">type_de_payement</th>
+                                        <th scope="col">payee</th>
+                                        <th scope="col">date_de_payement</th>
+                                        <th scope="col">rest_a_payee</th>
+                                        <th scope="col">date_d_echeance</th>
+                                        <th scope="col">Verification</th>
+                                        <th scope="col">Payement</th>
+                                  
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                                         <?php  $total = 0; if(isset($payement_fou) AND !empty($payement_fou)){ 
+                                                            $last = 0;
+
+                                                           foreach($payement_fou as $payement_fous){
+                                                         
+                                                            $payement_fous['ver']= 'incomplet';
+                                                            
+                                                            $payement_fous['rest'] =  ($payement_fous['net'] - $payement_fous['payee'] );
+
+                                                           
+                                                          if($payement_fous['payee']==$payement_fous['net'] )
+                                                           {
+                                                              $payement_fous['ver']= 'complet';
+                                                           }
+                                                          
+
+
+                                                           if($payement_fous['numfact'] == $last)
+                                                               {
+                                                                 $last = $payement_fous['numfact'];
+                                                              }
+                                                            
+                                                               else {
+                                                                 $last = $payement_fous['numfact'];
+                                                                 $total +=$payement_fous['payee'];
+                                                               
+                                                           ?>
+                                                            <tr>
+                                                               
+                                                                <td><?php echo $payement_fous['nom_fournisseur'] ?></td>
+                                                                <td><?php echo $payement_fous['numfact'] ?></button></a></td>   
+                                                                <td><?php echo $payement_fous['date_appro'] ?></td>
+                                                                <td><?php echo $payement_fous['net']?>Ar</td>
+                                                                <td><?php echo $payement_fous['type_d_payement'] ?></td>
+                                                                <td><?php echo $payement_fous['payee']?>Ar</td>
+                                                                <td><?php echo $payement_fous['date_payement'] ?> </td>
+                                                                <td><?php echo $payement_fous['rest'] ?>Ar</td>
+                                                                <td><?php echo $payement_fous['date_d_echeance'] ?></td>
+                                                                <td><?php echo $payement_fous['ver'] ?></td>
+                                                               
+                                                                <td>
+                                                                <?php if($payement_fous['rest'] != 0){?>
+                                                                  <a  href="<?php echo base_url().'index.php/payement_fou/edit_pay/'.$payement_fous['numfact']; ?> " ><i class="fas fa-phone"></i></a>
+                                                                <?php } ?>
+                                                                </td>
+                                                                <!-- <td>
+                                                                <a href="<?php echo base_url().'index.php/commande_fou/facturefournissers/'.$payement_fous['numfact'] ?> "></span><i class="fas fa-download"></i></a>
+                                                                  
+                                                                </td> -->
+                                                                
+                                                              
+                                                            </tr>
+
+
+                                                        <?php 
+                                                               }
+                                                       
+                                                       
+                                                              } 
+                                                       
+                                                       
+
+                                                       } else { ?>   
+                                                        <td colspan= "5">Element non trouvee</td>
+                                                        <?php    }  ?>  
+
+                                                            </tbody>
+
+                                                            <tfoot>
+                                  <tr>
+                                        <th scmontanDope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Depense:</th>
+                                        <th scope="col"><?php if(isset($total) ) echo $total."Ar"; ?></th>
+
+                                        
+                                      </tr>
+                                  </tfoot>
+                                  </table>     
+
+      </div>
+      
+    </div>
+  </div>
+
+
+  <script src="<?= base_url() ?>issets/js/jquery.min.js"></script>
+  <script src="<?= base_url() ?>issets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
